@@ -25,13 +25,18 @@
 // SOFTWARE.
 // ==========================================================================================
 
-#define SENSOR_TYPE "ModulAmp" // type of sensor
-#define VERSION "1.0"          // firmware version
-#define MAIN_TOPIC "modulamp"  // default MQTT topic (can be empty)
+#define SENSOR_TYPE "ModulAmp"  // type of sensor
+#define VERSION     "1.0"       // firmware version
+#define MAIN_TOPIC  "modulamp"  // default MQTT topic (can be empty)
 
 #include "main.h"
+#include "EEPROM.h"
 
 // Global variables -------------------------------------------------------------------------
+
+// - Fonts
+#define HEADER_FONT u8g2_font_logisoso16_tf
+#define BODY_FONT u8g2_font_logisoso34_tf
 
 // - Smart knob values
 #define KNOB_MODE_MENU 0
@@ -49,7 +54,7 @@ int KNOB_MODE_MENU_MIN = 1;
 int KNOB_MODE_INPUT_MAX = 2;
 int KNOB_MODE_INPUT_MIN = 0;
 
-int KNOB_MODE_VOLUME_MAX = 100;
+int KNOB_MODE_VOLUME_MAX = 20;
 int KNOB_MODE_VOLUME_MIN = 0;
 
 int KNOB_MODE = KNOB_MODE_VOLUME;
@@ -68,6 +73,7 @@ float DHT_TEMPERATURE;
 float DHT_HUMIDITY;
 
 // TODO: add global variables here
+int addr = 0;
 
 // MQTT sensor specific topics to report values ---------------------------------------------
 char input_mqtt_topic[50];
@@ -83,44 +89,50 @@ char volume_mqtt_topic[50];
 
 void selectInput(int value)
 {
-  /* code */
-
+  KNOB_INPUT = value;
 }
 
 void setVolume(int value)
 {
-  /* code */
-
+  KNOB_VOLUME = value;
 }
 
 void saveVolume(int value)
 {
   /* code */
-
+  // EEPROM.put(0, (uint8_t)KNOB_VOLUME);
+  //   EEPROM.commit();
+  // Serial.print("Saving volume ");
+  // Serial.println(KNOB_VOLUME);
 }
 
 void saveInput(int value)
 {
   /* code */
-
+  // EEPROM.put(1, (uint8_t)KNOB_INPUT);
+  //   EEPROM.commit();
+  // Serial.print("Saving input ");
+  // Serial.println(KNOB_INPUT);
 }
 
 int getVolume()
 {
-  int v = KNOB_MODE_VOLUME_MIN;
+  uint8_t v = 0;
 
-  /* code */
-
-  return(v);
+  // v = EEPROM.read(0);
+  // Serial.print("Reading volume ");
+  // Serial.println(v);
+  return ((int)v);
 }
 
 int getInput()
 {
-  int v = KNOB_SELECTED_INPUT;
+  uint8_t v = 0;
 
-  /* code */
-
-  return(v);
+  // v = EEPROM.read(1);
+  // Serial.print("Reading input ");
+  // Serial.println(v);
+  return ((int)v);
 }
 
 void resetScreenTimeout()
@@ -204,6 +216,7 @@ void sensorSetup()
 
   // TODO: Add other sensor-specific initialization code here
   /* code */
+  EEPROM.begin(512);
 }
 
 // ------------------------------------------------------------------------------------------
@@ -220,21 +233,9 @@ void sensorMqttSetup()
 // ------------------------------------------------------------------------------------------
 void sensorUpdateReadings()
 {
-  if (SENSOR_DHT) // - DHTxx temperature and humidity readings
-  {
-    sensors_event_t event;
-    dht.temperature().getEvent(&event);
-    DHT_TEMPERATURE = (float)event.temperature; // in degrees Celsius
-    if (DHT_TEMPERATURE_IN_FARENHEIT)
-    {
-      DHT_TEMPERATURE = (DHT_TEMPERATURE * 1.8) + 32;
-    }
-    dht.humidity().getEvent(&event);
-    DHT_HUMIDITY = (float)event.relative_humidity; // in percentage
-  }
-
-  // TODO: Perform measurements every DELAY_MS milliseconds
-  /* code */
+  // Saving status to EEPROM
+  saveVolume(KNOB_VOLUME);
+  saveInput(KNOB_INPUT);
 }
 
 // ------------------------------------------------------------------------------------------
@@ -292,6 +293,7 @@ void sensorUpdateReadingsQuick()
       }
 
       ON_SPLASH_SCREEN = false;
+      Serial.println(KNOB_VOLUME);
       resetScreenTimeout();
       sensorUpdateDisplay();
       KY040_STATUS_CURRENT = KY040_STATUS_IDLE;
@@ -318,6 +320,7 @@ void sensorUpdateReadingsQuick()
       }
 
       ON_SPLASH_SCREEN = false;
+      Serial.println(KNOB_VOLUME);
       resetScreenTimeout();
       sensorUpdateDisplay();
       KY040_STATUS_CURRENT = KY040_STATUS_IDLE;
@@ -337,17 +340,7 @@ void sensorUpdateReadingsQuick()
 // ------------------------------------------------------------------------------------------
 void sensorReportToMqtt()
 {
-  char t[255];
   bool emitTimestamp = false;
-
-  if (SENSOR_DHT) // - DHTxx temperature and humidity readings
-  {
-    sprintf(t, "%s/%s", LOCATION, STR_SENSOR_TOPIC_DHT_TEMPERATURE);
-    sendToMqttTopicAndValue(t, String(DHT_TEMPERATURE));
-    sprintf(t, "%s/%s", LOCATION, STR_SENSOR_TOPIC_DHT_HUMIDITY);
-    sendToMqttTopicAndValue(t, String(DHT_HUMIDITY));
-    emitTimestamp = true; // mark this measurement with a timestamp
-  }
 
   sendToMqttTopicAndValue(input_mqtt_topic, String(KNOB_SELECTED_INPUT));
   sendToMqttTopicAndValue(volume_mqtt_topic, String(KNOB_VOLUME));
@@ -356,7 +349,7 @@ void sensorReportToMqtt()
   {
     time_t temp;
     struct tm *timeptr;
-    char s[80];
+    char s[80], t[80];
 
     temp = time(NULL);
     timeptr = localtime(&temp);
@@ -393,11 +386,11 @@ void sensorUpdateDisplay()
         {
         // TODO redesign the screens for menu, input, volume
         case KNOB_MODE_MENU:
-          u8g2.setFont(u8g2_font_logisoso16_tf);
+          u8g2.setFont(HEADER_FONT);
           sprintf(s, "%s", "MODULAMP");
           u8g2.drawStr(0, 16, s);
 
-          u8g2.setFont(u8g2_font_logisoso34_tf);
+          u8g2.setFont(BODY_FONT);
           switch (KNOB_MENU)
           {
           case KNOB_MODE_INPUT:
@@ -411,11 +404,11 @@ void sensorUpdateDisplay()
           break;
 
         case KNOB_MODE_INPUT:
-          u8g2.setFont(u8g2_font_logisoso16_tf);
+          u8g2.setFont(HEADER_FONT);
           sprintf(s, "%s", "INPUT");
           u8g2.drawStr(0, 16, s);
 
-          u8g2.setFont(u8g2_font_logisoso34_tf);
+          u8g2.setFont(BODY_FONT);
           switch (KNOB_INPUT)
           {
           case KNOB_INPUT_BACK:
@@ -435,11 +428,11 @@ void sensorUpdateDisplay()
           break;
 
         case KNOB_MODE_VOLUME:
-          u8g2.setFont(u8g2_font_logisoso16_tf);
+          u8g2.setFont(HEADER_FONT);
           sprintf(s, "%s", "VOLUME");
           u8g2.drawStr(0, 16, s);
 
-          u8g2.setFont(u8g2_font_logisoso34_tf);
+          u8g2.setFont(BODY_FONT);
           sprintf(s, "%d", KNOB_VOLUME);
           u8g2.drawStr(0, 60, s);
           break;
@@ -447,13 +440,10 @@ void sensorUpdateDisplay()
         default:
           break;
         }
+
         u8g2.sendBuffer();
       }
 
-      if (SENSOR_HD74480)
-      {
-        /* code */
-      }
       /* code */ // <-- other indicators and annunciators
     }
   }
@@ -481,6 +471,15 @@ void mqttCallback(char *topic, byte *payload, uint8_t length)
   sprintf(out, STR_MESSAGE_RECEIVED_FORMAT, topic, message.c_str());
   log_out("MQTT", out);
 
-  // TODO: Take action
-  /* code */
+  // TODO: error handling
+  int v;
+  sscanf(message.c_str(), "%s %d", c, &v);
+
+      char s[255];
+      sprintf(s,"Parameter:%s - Value:%d", c, v);
+      Serial.println(s);
+
+  if (!strcmp(c, "volume")) setVolume(v);
+  if (!strcmp(c, "input")) selectInput(v);
+
 }
