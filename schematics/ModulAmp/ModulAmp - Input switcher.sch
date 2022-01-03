@@ -1,0 +1,697 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 7
+Title "ModulAmp"
+Date ""
+Rev "1.0"
+Comp "Paolo Marcucci"
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Wire Wire Line
+	6600 1900 4850 1900
+Wire Wire Line
+	7000 4750 5150 4750
+Wire Wire Line
+	7000 3550 5150 3550
+Wire Wire Line
+	5150 2350 7000 2350
+Wire Wire Line
+	5150 2350 5150 2600
+Wire Wire Line
+	4650 5400 4650 6750
+Wire Wire Line
+	5600 5400 4650 5400
+Wire Wire Line
+	5600 5200 4750 5200
+Connection ~ 4650 5400
+Wire Wire Line
+	4650 5100 4650 5400
+Wire Wire Line
+	4750 3500 4750 5200
+$Comp
+L power:GNDA #PWR?
+U 1 1 61D3A4A4
+P 3550 2600
+AR Path="/61D3A4A4" Ref="#PWR?"  Part="1" 
+AR Path="/61D1F1E8/61D3A4A4" Ref="#PWR0101"  Part="1" 
+F 0 "#PWR0101" H 3550 2350 50  0001 C CNN
+F 1 "GNDA" H 3555 2427 50  0000 C CNN
+F 2 "" H 3550 2600 50  0001 C CNN
+F 3 "" H 3550 2600 50  0001 C CNN
+	1    3550 2600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GNDA #PWR?
+U 1 1 61D3A4AA
+P 3550 4300
+AR Path="/61D3A4AA" Ref="#PWR?"  Part="1" 
+AR Path="/61D1F1E8/61D3A4AA" Ref="#PWR0102"  Part="1" 
+F 0 "#PWR0102" H 3550 4050 50  0001 C CNN
+F 1 "GNDA" H 3555 4127 50  0000 C CNN
+F 2 "" H 3550 4300 50  0001 C CNN
+F 3 "" H 3550 4300 50  0001 C CNN
+	1    3550 4300
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GNDA #PWR?
+U 1 1 61D3A4B0
+P 3550 6000
+AR Path="/61D3A4B0" Ref="#PWR?"  Part="1" 
+AR Path="/61D1F1E8/61D3A4B0" Ref="#PWR0103"  Part="1" 
+F 0 "#PWR0103" H 3550 5750 50  0001 C CNN
+F 1 "GNDA" H 3555 5827 50  0000 C CNN
+F 2 "" H 3550 6000 50  0001 C CNN
+F 3 "" H 3550 6000 50  0001 C CNN
+	1    3550 6000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4850 3450 4850 5150
+Connection ~ 4750 5200
+Wire Wire Line
+	3250 5200 4750 5200
+Wire Wire Line
+	3750 5000 3750 5150
+Wire Wire Line
+	4650 6750 3250 6750
+Wire Wire Line
+	4650 5100 3250 5100
+Connection ~ 4650 5100
+Wire Wire Line
+	4650 3400 4650 5100
+Wire Wire Line
+	3250 3400 4650 3400
+Wire Wire Line
+	4750 3500 3250 3500
+Connection ~ 4750 3500
+Wire Wire Line
+	4750 1800 4750 3500
+Wire Wire Line
+	3250 1800 4750 1800
+Wire Wire Line
+	5050 6000 5050 6100
+Wire Wire Line
+	5150 6000 5050 6000
+Wire Wire Line
+	5150 4750 5150 6000
+Wire Wire Line
+	5050 4300 5050 4400
+Wire Wire Line
+	5150 4300 5050 4300
+Wire Wire Line
+	5150 3550 5150 4300
+Wire Wire Line
+	5050 2600 5050 2700
+Wire Wire Line
+	5150 2600 5050 2600
+Wire Wire Line
+	3750 3450 3750 3300
+Wire Wire Line
+	3750 3450 4850 3450
+Connection ~ 4850 3450
+Wire Wire Line
+	4850 1900 4850 3450
+Wire Wire Line
+	3750 6700 4850 6700
+Connection ~ 3750 3450
+Wire Wire Line
+	3750 3600 3750 3450
+Connection ~ 4850 1900
+Wire Wire Line
+	3750 1900 4850 1900
+Wire Wire Line
+	5050 6100 3750 6100
+Connection ~ 5050 6000
+Wire Wire Line
+	5050 5900 5050 6000
+Wire Wire Line
+	3750 5900 5050 5900
+Wire Wire Line
+	5050 4400 3750 4400
+Connection ~ 5050 4300
+Wire Wire Line
+	5050 4200 5050 4300
+Wire Wire Line
+	3750 4200 5050 4200
+Wire Wire Line
+	5050 2700 3750 2700
+Connection ~ 5050 2600
+Wire Wire Line
+	5050 2500 5050 2600
+Wire Wire Line
+	3750 2500 5050 2500
+Wire Wire Line
+	8450 3300 8450 3500
+$Comp
+L power:GNDD #PWR?
+U 1 1 61D3A4E2
+P 8450 3500
+AR Path="/61D3A4E2" Ref="#PWR?"  Part="1" 
+AR Path="/61D1F1E8/61D3A4E2" Ref="#PWR0104"  Part="1" 
+F 0 "#PWR0104" H 8450 3250 50  0001 C CNN
+F 1 "GNDD" H 8454 3345 50  0000 C CNN
+F 2 "" H 8450 3500 50  0001 C CNN
+F 3 "" H 8450 3500 50  0001 C CNN
+	1    8450 3500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7850 3200 8550 3200
+Wire Wire Line
+	7850 4950 7850 3200
+Wire Wire Line
+	7600 4950 7850 4950
+Wire Wire Line
+	7600 3100 8550 3100
+Wire Wire Line
+	7600 3750 7600 3100
+Wire Wire Line
+	8400 3000 8550 3000
+Wire Wire Line
+	8400 2550 8400 3000
+Wire Wire Line
+	7600 2550 8400 2550
+Wire Wire Line
+	6600 4300 7000 4300
+Wire Wire Line
+	6600 3100 6600 4300
+Wire Wire Line
+	6600 3100 7000 3100
+Connection ~ 6600 3100
+Wire Wire Line
+	6600 1900 6600 3100
+$Comp
+L power:GNDD #PWR?
+U 1 1 61D3A4F5
+P 7000 5150
+AR Path="/61D3A4F5" Ref="#PWR?"  Part="1" 
+AR Path="/61D1F1E8/61D3A4F5" Ref="#PWR0105"  Part="1" 
+F 0 "#PWR0105" H 7000 4900 50  0001 C CNN
+F 1 "GNDD" H 7004 4995 50  0000 C CNN
+F 2 "" H 7000 5150 50  0001 C CNN
+F 3 "" H 7000 5150 50  0001 C CNN
+	1    7000 5150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7000 4750 7000 4600
+Connection ~ 7000 4750
+Wire Wire Line
+	7000 4850 7000 4750
+$Comp
+L Diode:1N4007 D?
+U 1 1 61D3A4FE
+P 7000 4450
+AR Path="/61D3A4FE" Ref="D?"  Part="1" 
+AR Path="/61D1F1E8/61D3A4FE" Ref="D3"  Part="1" 
+F 0 "D3" V 6954 4530 50  0000 L CNN
+F 1 "1N4007" V 7045 4530 50  0000 L CNN
+F 2 "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal" H 7000 4275 50  0001 C CNN
+F 3 "http://www.vishay.com/docs/88503/1n4001.pdf" H 7000 4450 50  0001 C CNN
+	1    7000 4450
+	0    1    1    0   
+$EndComp
+$Comp
+L SparkFun-DiscreteSemi:TRANS_NPN-P2N2222A Q?
+U 1 1 61D3A505
+P 7100 4950
+AR Path="/61D3A505" Ref="Q?"  Part="1" 
+AR Path="/61D1F1E8/61D3A505" Ref="Q3"  Part="1" 
+F 0 "Q3" H 7244 4992 45  0000 L CNN
+F 1 "2N2222A" H 7244 4908 45  0000 L CNN
+F 2 "TO-92" H 7100 5200 20  0001 C CNN
+F 3 "" H 7100 4950 50  0001 C CNN
+F 4 "TRANS-09536" H 7244 4866 60  0001 L CNN "Field4"
+	1    7100 4950
+	-1   0    0    -1  
+$EndComp
+$Comp
+L SparkFun-Resistors:1KOHM-HORIZ-1_4W-5% R?
+U 1 1 61D3A50C
+P 7400 4950
+AR Path="/61D3A50C" Ref="R?"  Part="1" 
+AR Path="/61D1F1E8/61D3A50C" Ref="R3"  Part="1" 
+F 0 "R3" H 7400 5144 45  0000 C CNN
+F 1 "1k" H 7400 5060 45  0000 C CNN
+F 2 "AXIAL-0.3" H 7400 5100 20  0001 C CNN
+F 3 "" H 7400 4950 60  0001 C CNN
+F 4 "RES-08380" H 7400 5071 60  0001 C CNN "Field4"
+	1    7400 4950
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GNDD #PWR?
+U 1 1 61D3A512
+P 7000 3950
+AR Path="/61D3A512" Ref="#PWR?"  Part="1" 
+AR Path="/61D1F1E8/61D3A512" Ref="#PWR0106"  Part="1" 
+F 0 "#PWR0106" H 7000 3700 50  0001 C CNN
+F 1 "GNDD" H 7004 3795 50  0000 C CNN
+F 2 "" H 7000 3950 50  0001 C CNN
+F 3 "" H 7000 3950 50  0001 C CNN
+	1    7000 3950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7000 3550 7000 3400
+Connection ~ 7000 3550
+Wire Wire Line
+	7000 3650 7000 3550
+$Comp
+L Diode:1N4007 D?
+U 1 1 61D3A51B
+P 7000 3250
+AR Path="/61D3A51B" Ref="D?"  Part="1" 
+AR Path="/61D1F1E8/61D3A51B" Ref="D2"  Part="1" 
+F 0 "D2" V 6954 3330 50  0000 L CNN
+F 1 "1N4007" V 7045 3330 50  0000 L CNN
+F 2 "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal" H 7000 3075 50  0001 C CNN
+F 3 "http://www.vishay.com/docs/88503/1n4001.pdf" H 7000 3250 50  0001 C CNN
+	1    7000 3250
+	0    1    1    0   
+$EndComp
+$Comp
+L SparkFun-DiscreteSemi:TRANS_NPN-P2N2222A Q?
+U 1 1 61D3A522
+P 7100 3750
+AR Path="/61D3A522" Ref="Q?"  Part="1" 
+AR Path="/61D1F1E8/61D3A522" Ref="Q2"  Part="1" 
+F 0 "Q2" H 7244 3792 45  0000 L CNN
+F 1 "2N2222A" H 7244 3708 45  0000 L CNN
+F 2 "TO-92" H 7100 4000 20  0001 C CNN
+F 3 "" H 7100 3750 50  0001 C CNN
+F 4 "TRANS-09536" H 7244 3666 60  0001 L CNN "Field4"
+	1    7100 3750
+	-1   0    0    -1  
+$EndComp
+$Comp
+L SparkFun-Resistors:1KOHM-HORIZ-1_4W-5% R?
+U 1 1 61D3A529
+P 7400 3750
+AR Path="/61D3A529" Ref="R?"  Part="1" 
+AR Path="/61D1F1E8/61D3A529" Ref="R2"  Part="1" 
+F 0 "R2" H 7400 3944 45  0000 C CNN
+F 1 "1k" H 7400 3860 45  0000 C CNN
+F 2 "AXIAL-0.3" H 7400 3900 20  0001 C CNN
+F 3 "" H 7400 3750 60  0001 C CNN
+F 4 "RES-08380" H 7400 3871 60  0001 C CNN "Field4"
+	1    7400 3750
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GNDD #PWR?
+U 1 1 61D3A52F
+P 7000 2750
+AR Path="/61D3A52F" Ref="#PWR?"  Part="1" 
+AR Path="/61D1F1E8/61D3A52F" Ref="#PWR0107"  Part="1" 
+F 0 "#PWR0107" H 7000 2500 50  0001 C CNN
+F 1 "GNDD" H 7004 2595 50  0000 C CNN
+F 2 "" H 7000 2750 50  0001 C CNN
+F 3 "" H 7000 2750 50  0001 C CNN
+	1    7000 2750
+	1    0    0    -1  
+$EndComp
+Connection ~ 6600 1900
+Wire Wire Line
+	6600 1900 7000 1900
+Wire Wire Line
+	6600 1600 6600 1900
+$Comp
+L power:GNDD #PWR?
+U 1 1 61D3A538
+P 6700 1600
+AR Path="/61D3A538" Ref="#PWR?"  Part="1" 
+AR Path="/61D1F1E8/61D3A538" Ref="#PWR0108"  Part="1" 
+F 0 "#PWR0108" H 6700 1350 50  0001 C CNN
+F 1 "GNDD" H 6704 1445 50  0000 C CNN
+F 2 "" H 6700 1600 50  0001 C CNN
+F 3 "" H 6700 1600 50  0001 C CNN
+	1    6700 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L SparkFun-Connectors:CONN_02JST-PTH-2 J?
+U 1 1 61D3A53F
+P 6600 1500
+AR Path="/61D3A53F" Ref="J?"  Part="1" 
+AR Path="/61D1F1E8/61D3A53F" Ref="J5"  Part="1" 
+F 0 "J5" V 6516 1678 45  0000 L CNN
+F 1 "+5v" V 6600 1678 45  0000 L CNN
+F 2 "JST-2-PTH" H 6600 1800 20  0001 C CNN
+F 3 "" H 6600 1500 50  0001 C CNN
+F 4 "CONN-09863" V 6642 1678 60  0001 L CNN "Field4"
+	1    6600 1500
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7000 2350 7000 2200
+Connection ~ 7000 2350
+Wire Wire Line
+	7000 2450 7000 2350
+Wire Wire Line
+	5500 5300 5600 5300
+Wire Wire Line
+	5500 6750 5500 5300
+$Comp
+L power:GNDA #PWR?
+U 1 1 61D3A54A
+P 5500 6750
+AR Path="/61D3A54A" Ref="#PWR?"  Part="1" 
+AR Path="/61D1F1E8/61D3A54A" Ref="#PWR0109"  Part="1" 
+F 0 "#PWR0109" H 5500 6500 50  0001 C CNN
+F 1 "GNDA" H 5505 6577 50  0000 C CNN
+F 2 "" H 5500 6750 50  0001 C CNN
+F 3 "" H 5500 6750 50  0001 C CNN
+	1    5500 6750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Diode:1N4007 D?
+U 1 1 61D3A550
+P 7000 2050
+AR Path="/61D3A550" Ref="D?"  Part="1" 
+AR Path="/61D1F1E8/61D3A550" Ref="D1"  Part="1" 
+F 0 "D1" V 6954 2130 50  0000 L CNN
+F 1 "1N4007" V 7045 2130 50  0000 L CNN
+F 2 "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal" H 7000 1875 50  0001 C CNN
+F 3 "http://www.vishay.com/docs/88503/1n4001.pdf" H 7000 2050 50  0001 C CNN
+	1    7000 2050
+	0    1    1    0   
+$EndComp
+$Comp
+L SparkFun-DiscreteSemi:TRANS_NPN-P2N2222A Q?
+U 1 1 61D3A557
+P 7100 2550
+AR Path="/61D3A557" Ref="Q?"  Part="1" 
+AR Path="/61D1F1E8/61D3A557" Ref="Q1"  Part="1" 
+F 0 "Q1" H 7244 2592 45  0000 L CNN
+F 1 "2N2222A" H 7244 2508 45  0000 L CNN
+F 2 "TO-92" H 7100 2800 20  0001 C CNN
+F 3 "" H 7100 2550 50  0001 C CNN
+F 4 "TRANS-09536" H 7244 2466 60  0001 L CNN "Field4"
+	1    7100 2550
+	-1   0    0    -1  
+$EndComp
+$Comp
+L SparkFun-Resistors:1KOHM-HORIZ-1_4W-5% R?
+U 1 1 61D3A55E
+P 7400 2550
+AR Path="/61D3A55E" Ref="R?"  Part="1" 
+AR Path="/61D1F1E8/61D3A55E" Ref="R1"  Part="1" 
+F 0 "R1" H 7400 2744 45  0000 C CNN
+F 1 "1k" H 7400 2660 45  0000 C CNN
+F 2 "AXIAL-0.3" H 7400 2700 20  0001 C CNN
+F 3 "" H 7400 2550 60  0001 C CNN
+F 4 "RES-08380" H 7400 2671 60  0001 C CNN "Field4"
+	1    7400 2550
+	1    0    0    -1  
+$EndComp
+NoConn ~ 3450 6700
+NoConn ~ 3450 5300
+NoConn ~ 3450 5000
+NoConn ~ 3450 3600
+NoConn ~ 3450 3300
+NoConn ~ 3450 1900
+$Comp
+L SparkFun-Connectors:CONN_04JST-PTH-VERT J?
+U 1 1 61D3A56B
+P 8650 3300
+AR Path="/61D3A56B" Ref="J?"  Part="1" 
+AR Path="/61D1F1E8/61D3A56B" Ref="J6"  Part="1" 
+F 0 "J6" H 8422 3492 45  0000 R CNN
+F 1 "CONTROL" H 8422 3408 45  0000 R CNN
+F 2 "JST-4-PTH-VERT" H 8650 3800 20  0001 C CNN
+F 3 "" H 8650 3300 50  0001 C CNN
+F 4 "CONN-13251" H 8422 3366 60  0001 R CNN "Field4"
+	1    8650 3300
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	3250 6700 3250 6750
+Wire Wire Line
+	3250 5300 3250 5200
+Wire Wire Line
+	3250 5000 3250 5100
+Wire Wire Line
+	3250 3600 3250 3500
+Wire Wire Line
+	3250 3300 3250 3400
+Wire Wire Line
+	3250 1900 3250 1800
+$Comp
+L SparkFun-Connectors:CONN_03JST-PTH-VERT J?
+U 1 1 61D3A577
+P 5700 5200
+AR Path="/61D3A577" Ref="J?"  Part="1" 
+AR Path="/61D1F1E8/61D3A577" Ref="J4"  Part="1" 
+F 0 "J4" V 5600 5050 45  0000 L CNN
+F 1 "OUT" V 5450 5150 45  0000 L CNN
+F 2 "JST-3-PTH-VERT" H 5700 5600 20  0001 C CNN
+F 3 "" H 5700 5200 50  0001 C CNN
+	1    5700 5200
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	2950 2600 3550 2600
+Wire Wire Line
+	2950 4300 3550 4300
+Wire Wire Line
+	2950 6000 3550 6000
+$Comp
+L SparkFun-Connectors:CONN_03JST-PTH-VERT J?
+U 1 1 61D3A580
+P 2850 6100
+AR Path="/61D3A580" Ref="J?"  Part="1" 
+AR Path="/61D1F1E8/61D3A580" Ref="J3"  Part="1" 
+F 0 "J3" V 2750 5950 45  0000 L CNN
+F 1 "STREAM" V 2600 6050 45  0000 L CNN
+F 2 "JST-3-PTH-VERT" H 2850 6500 20  0001 C CNN
+F 3 "" H 2850 6100 50  0001 C CNN
+	1    2850 6100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Relay:SANYOU_SRD_Form_C K?
+U 1 1 61D3A586
+P 3550 6400
+AR Path="/61D3A586" Ref="K?"  Part="1" 
+AR Path="/61D1F1E8/61D3A586" Ref="K6"  Part="1" 
+F 0 "K6" H 3120 6354 50  0000 R CNN
+F 1 "STREAM LEFT" H 3120 6445 50  0000 R CNN
+F 2 "Relay_THT:Relay_SPDT_SANYOU_SRD_Series_Form_C" H 4000 6350 50  0001 L CNN
+F 3 "http://www.sanyourelay.ca/public/products/pdf/SRD.pdf" H 3550 6400 50  0001 C CNN
+	1    3550 6400
+	-1   0    0    1   
+$EndComp
+$Comp
+L Relay:SANYOU_SRD_Form_C K?
+U 1 1 61D3A58C
+P 3550 5600
+AR Path="/61D3A58C" Ref="K?"  Part="1" 
+AR Path="/61D1F1E8/61D3A58C" Ref="K5"  Part="1" 
+F 0 "K5" H 3120 5646 50  0000 R CNN
+F 1 "STREAM RIGHT" H 3120 5555 50  0000 R CNN
+F 2 "Relay_THT:Relay_SPDT_SANYOU_SRD_Series_Form_C" H 4000 5550 50  0001 L CNN
+F 3 "http://www.sanyourelay.ca/public/products/pdf/SRD.pdf" H 3550 5600 50  0001 C CNN
+	1    3550 5600
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	2950 6100 3350 6100
+Wire Wire Line
+	2950 5900 3350 5900
+$Comp
+L SparkFun-Connectors:CONN_03JST-PTH-VERT J?
+U 1 1 61D3A594
+P 2850 4400
+AR Path="/61D3A594" Ref="J?"  Part="1" 
+AR Path="/61D1F1E8/61D3A594" Ref="J2"  Part="1" 
+F 0 "J2" V 2750 4250 45  0000 L CNN
+F 1 "LINE IN 2" V 2600 4350 45  0000 L CNN
+F 2 "JST-3-PTH-VERT" H 2850 4800 20  0001 C CNN
+F 3 "" H 2850 4400 50  0001 C CNN
+	1    2850 4400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Relay:SANYOU_SRD_Form_C K?
+U 1 1 61D3A59A
+P 3550 4700
+AR Path="/61D3A59A" Ref="K?"  Part="1" 
+AR Path="/61D1F1E8/61D3A59A" Ref="K4"  Part="1" 
+F 0 "K4" H 3120 4654 50  0000 R CNN
+F 1 "LINE 2 LEFT" H 3120 4745 50  0000 R CNN
+F 2 "Relay_THT:Relay_SPDT_SANYOU_SRD_Series_Form_C" H 4000 4650 50  0001 L CNN
+F 3 "http://www.sanyourelay.ca/public/products/pdf/SRD.pdf" H 3550 4700 50  0001 C CNN
+	1    3550 4700
+	-1   0    0    1   
+$EndComp
+$Comp
+L Relay:SANYOU_SRD_Form_C K?
+U 1 1 61D3A5A0
+P 3550 3900
+AR Path="/61D3A5A0" Ref="K?"  Part="1" 
+AR Path="/61D1F1E8/61D3A5A0" Ref="K3"  Part="1" 
+F 0 "K3" H 3120 3946 50  0000 R CNN
+F 1 "LINE 2 RIGHT" H 3120 3855 50  0000 R CNN
+F 2 "Relay_THT:Relay_SPDT_SANYOU_SRD_Series_Form_C" H 4000 3850 50  0001 L CNN
+F 3 "http://www.sanyourelay.ca/public/products/pdf/SRD.pdf" H 3550 3900 50  0001 C CNN
+	1    3550 3900
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	2950 4400 3350 4400
+Wire Wire Line
+	2950 4200 3350 4200
+$Comp
+L SparkFun-Connectors:CONN_03JST-PTH-VERT J?
+U 1 1 61D3A5A8
+P 2850 2700
+AR Path="/61D3A5A8" Ref="J?"  Part="1" 
+AR Path="/61D1F1E8/61D3A5A8" Ref="J1"  Part="1" 
+F 0 "J1" V 2750 2550 45  0000 L CNN
+F 1 "LINE IN 1" V 2600 2650 45  0000 L CNN
+F 2 "JST-3-PTH-VERT" H 2850 3100 20  0001 C CNN
+F 3 "" H 2850 2700 50  0001 C CNN
+	1    2850 2700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Relay:SANYOU_SRD_Form_C K?
+U 1 1 61D3A5AE
+P 3550 3000
+AR Path="/61D3A5AE" Ref="K?"  Part="1" 
+AR Path="/61D1F1E8/61D3A5AE" Ref="K2"  Part="1" 
+F 0 "K2" H 3120 2954 50  0000 R CNN
+F 1 "LINE 1 LEFT" H 3120 3045 50  0000 R CNN
+F 2 "Relay_THT:Relay_SPDT_SANYOU_SRD_Series_Form_C" H 4000 2950 50  0001 L CNN
+F 3 "http://www.sanyourelay.ca/public/products/pdf/SRD.pdf" H 3550 3000 50  0001 C CNN
+	1    3550 3000
+	-1   0    0    1   
+$EndComp
+$Comp
+L Relay:SANYOU_SRD_Form_C K?
+U 1 1 61D3A5B4
+P 3550 2200
+AR Path="/61D3A5B4" Ref="K?"  Part="1" 
+AR Path="/61D1F1E8/61D3A5B4" Ref="K1"  Part="1" 
+F 0 "K1" H 3120 2246 50  0000 R CNN
+F 1 "LINE 1 RIGHT" H 3120 2155 50  0000 R CNN
+F 2 "Relay_THT:Relay_SPDT_SANYOU_SRD_Series_Form_C" H 4000 2150 50  0001 L CNN
+F 3 "http://www.sanyourelay.ca/public/products/pdf/SRD.pdf" H 3550 2200 50  0001 C CNN
+	1    3550 2200
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	2950 2700 3350 2700
+Wire Wire Line
+	2950 2500 3350 2500
+Text HLabel 2500 2500 0    50   Input ~ 0
+LINE1IN_R
+Text HLabel 2500 2600 0    50   Input ~ 0
+LINE1IN_G
+Text HLabel 2500 2700 0    50   Input ~ 0
+LINE1IN_L
+Text HLabel 2500 4200 0    50   Input ~ 0
+LINE2IN_R
+Text HLabel 2500 4300 0    50   Input ~ 0
+LINE2IN_G
+Text HLabel 2500 4400 0    50   Input ~ 0
+LINE2IN_L
+Text HLabel 2550 5900 0    50   Input ~ 0
+STREAMIN_R
+Text HLabel 2550 6000 0    50   Input ~ 0
+STREAMIN_G
+Text HLabel 2550 6100 0    50   Input ~ 0
+STREAMIN_L
+Text HLabel 6050 5200 2    50   Input ~ 0
+LINEOUT_L
+Text HLabel 6050 5300 2    50   Input ~ 0
+LINEOUT_G
+Text HLabel 6050 5400 2    50   Input ~ 0
+LINEOUT_R
+Text HLabel 6600 1200 1    50   Input ~ 0
++5V
+Text HLabel 6700 1200 1    50   Input ~ 0
+GND
+Text HLabel 9300 3300 2    50   Input ~ 0
+GND
+Text HLabel 9300 3200 2    50   Input ~ 0
+STREAM_SEL
+Text HLabel 9300 3100 2    50   Input ~ 0
+LINE2_SEL
+Text HLabel 9300 3000 2    50   Input ~ 0
+LINE1_SEL
+Wire Wire Line
+	3750 5150 4850 5150
+Connection ~ 3750 5150
+Wire Wire Line
+	3750 5150 3750 5300
+Connection ~ 4850 5150
+Wire Wire Line
+	4850 5150 4850 6700
+Connection ~ 8550 3000
+Connection ~ 8550 3100
+Connection ~ 8550 3200
+Connection ~ 8550 3300
+Wire Wire Line
+	8550 3300 8450 3300
+Wire Wire Line
+	8550 3000 9300 3000
+Wire Wire Line
+	8550 3100 9300 3100
+Wire Wire Line
+	8550 3200 9300 3200
+Wire Wire Line
+	8550 3300 9300 3300
+Wire Wire Line
+	6600 1200 6600 1600
+Connection ~ 6600 1600
+Wire Wire Line
+	6700 1200 6700 1600
+Connection ~ 6700 1600
+Wire Wire Line
+	2500 2500 2950 2500
+Connection ~ 2950 2500
+Wire Wire Line
+	2500 2600 2950 2600
+Connection ~ 2950 2600
+Wire Wire Line
+	2500 2700 2950 2700
+Connection ~ 2950 2700
+Wire Wire Line
+	2500 4200 2950 4200
+Connection ~ 2950 4200
+Wire Wire Line
+	2500 4300 2950 4300
+Connection ~ 2950 4300
+Wire Wire Line
+	2500 4400 2950 4400
+Connection ~ 2950 4400
+Wire Wire Line
+	2550 5900 2950 5900
+Connection ~ 2950 5900
+Wire Wire Line
+	2550 6000 2950 6000
+Connection ~ 2950 6000
+Wire Wire Line
+	2550 6100 2950 6100
+Connection ~ 2950 6100
+Wire Wire Line
+	6050 5200 5600 5200
+Connection ~ 5600 5200
+Wire Wire Line
+	6050 5300 5600 5300
+Connection ~ 5600 5300
+Wire Wire Line
+	6050 5400 5600 5400
+Connection ~ 5600 5400
+$EndSCHEMATC
