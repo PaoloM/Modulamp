@@ -1,0 +1,31 @@
+(kicad_sch (version 20211123) (generator eeschema)
+
+  (uuid 96de0051-7945-413a-9219-1ab367546962)
+
+  (paper "A4")
+
+  (lib_symbols
+  )
+
+
+  (hierarchical_label "STREAMOUT_L" (shape input) (at 240.03 59.69 0)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid 22bb6c80-05a9-4d89-98b0-f4c23fe6c1ce)
+  )
+  (hierarchical_label "+5V" (shape input) (at 151.13 33.02 90)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid 2db910a0-b943-40b4-b81f-068ba5265f56)
+  )
+  (hierarchical_label "STREAMOUT_G" (shape input) (at 240.03 62.23 0)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid 802c2dc3-ca9f-491e-9d66-7893e89ac34c)
+  )
+  (hierarchical_label "STREAMOUT_R" (shape input) (at 240.03 64.77 0)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid eed466bf-cd88-4860-9abf-41a594ca08bd)
+  )
+  (hierarchical_label "GND" (shape input) (at 153.67 33.02 90)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid f8bd6470-fafd-47f2-8ed5-9449988187ce)
+  )
+)
