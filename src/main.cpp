@@ -78,6 +78,7 @@ int addr = 0;
 // MQTT sensor specific topics to report values ---------------------------------------------
 char input_mqtt_topic[50];
 char volume_mqtt_topic[50];
+char temperature_mqtt_topic[50];
 
 // ==========================================================================================
 // IMPLEMENTATION
@@ -89,7 +90,7 @@ char volume_mqtt_topic[50];
 
 void selectInput(int value)
 {
-  KNOB_INPUT = value;
+  KNOB_SELECTED_INPUT = value;
 }
 
 void setVolume(int value)
@@ -224,8 +225,9 @@ void sensorSetup()
 // ------------------------------------------------------------------------------------------
 void sensorMqttSetup()
 {
-  sprintf(input_mqtt_topic, "%s/%s", LOCATION, "audioinput");
+  sprintf(input_mqtt_topic, "%s/%s", LOCATION, "input");
   sprintf(volume_mqtt_topic, "%s/%s", LOCATION, "volume");
+  sprintf(temperature_mqtt_topic, "%s/%s", LOCATION, "temperature");
 }
 
 // ------------------------------------------------------------------------------------------
@@ -235,7 +237,12 @@ void sensorUpdateReadings()
 {
   // Saving status to EEPROM
   saveVolume(KNOB_VOLUME);
-  saveInput(KNOB_INPUT);
+  saveInput(KNOB_SELECTED_INPUT);
+
+  if (SENSOR_DHT) // - DHTxx TEMPERATURE AND HUMIDITY SENSOR
+  {
+    // TODO: optional temp sensor readings
+  }
 }
 
 // ------------------------------------------------------------------------------------------
@@ -293,7 +300,6 @@ void sensorUpdateReadingsQuick()
       }
 
       ON_SPLASH_SCREEN = false;
-      Serial.println(KNOB_VOLUME);
       resetScreenTimeout();
       sensorUpdateDisplay();
       KY040_STATUS_CURRENT = KY040_STATUS_IDLE;
@@ -320,7 +326,6 @@ void sensorUpdateReadingsQuick()
       }
 
       ON_SPLASH_SCREEN = false;
-      Serial.println(KNOB_VOLUME);
       resetScreenTimeout();
       sensorUpdateDisplay();
       KY040_STATUS_CURRENT = KY040_STATUS_IDLE;
@@ -344,6 +349,7 @@ void sensorReportToMqtt()
 
   sendToMqttTopicAndValue(input_mqtt_topic, String(KNOB_SELECTED_INPUT));
   sendToMqttTopicAndValue(volume_mqtt_topic, String(KNOB_VOLUME));
+  sendToMqttTopicAndValue(temperature_mqtt_topic, "N/A");
 
   if (emitTimestamp) // Common timestamp for all MQTT topics pub
   {
@@ -469,17 +475,14 @@ void mqttCallback(char *topic, byte *payload, uint8_t length)
   // log message
   char out[255];
   sprintf(out, STR_MESSAGE_RECEIVED_FORMAT, topic, message.c_str());
-  log_out("MQTT", out);
+  log_out("MQTT    ", out);
 
   // TODO: error handling
   int v;
-  sscanf(message.c_str(), "%s %d", c, &v);
+  char p[255];
+  sscanf(message.c_str(), "%s %d", p, &v);
 
-      char s[255];
-      sprintf(s,"Parameter:%s - Value:%d", c, v);
-      Serial.println(s);
-
-  if (!strcmp(c, "volume")) setVolume(v);
-  if (!strcmp(c, "input")) selectInput(v);
-
+  // TODO: make sure it's lowercase
+  if (!strcmp(p, "volume")) setVolume(v);
+  if (!strcmp(p, "input")) selectInput(v);
 }
