@@ -27,7 +27,7 @@
 
 
 ///////////////////////////////// SSD1306 I2C OLED DISPLAY //////////////////////////////////
-// Default connections are SCL -> D1 and SDA -> D2, 3.3v to VCC
+// Default connections in I2C are SCL -> D1 and SDA -> D2, 3.3v to VCC
 #include <U8g2lib.h> // olikraus/U8g2@^2.32.6
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
@@ -41,12 +41,19 @@
 #define          SSD1306_PIN_SCL              D1
 #define          SSD1306_PIN_SDA              D2
 
+///////////////////////////////// BMP280 TEMPERATURE, PRESSURE, ALTITUDE SENSOR /////////////
+//
+// (add some info)
+#include <Adafruit_BMP280.h>
+#define          BMP280_PIN_SCL               D3
+#define          BMP280_PIN_SDA               D4
+
 ///////////////////////////////// DHTxx TEMPERATURE AND HUMIDITY SENSOR //////////////////////
 // (add some info)
 #include <DHT.h> // adafruit/DHT sensor library@^1.4.3
 #include <DHT_U.h>
 
-#define DHT_PIN D3
+#define          DHT_PIN                      D3
 #define          DHT_TYPE                     DHT11     // DHT 11
 //#define          DHT_TYPE                     DHT22     // DHT 22 (AM2302)
 //#define          DHT_TYPE                     DHT21     // DHT 21 (AM2301)

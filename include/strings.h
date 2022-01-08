@@ -41,6 +41,7 @@
 #define STR_WIFI_LOG_PREFIX                      "WIFI    "
 #define STR_WIFIMAN_LOG_PREFIX                   "WIFIMAN "
 #define STR_OTA_LOG_PREFIX                       "OTA     "
+#define STR_DHT_LOG_PREFIX                       "DHT     "
 
 #define STR_OTA_START_UPDATE_MESSAGE             "Start updating %s"
 #define STR_OTA_END_UPDATE_MESSAGE               "End"
@@ -56,9 +57,12 @@
 #define STR_STARTUP_VERSION_MESSAGE_FORMAT       "Firmware v%s"
 #define STR_STARTUP_DEVICE_MESSAGE_FORMAT        "Device ID:%06X"
 
+// Sensors specific strings ----------------------------------------------------------------
 #define STR_SENSOR_TOPIC_TIMESTAMP               "timestamp"
 #define STR_SENSOR_TOPIC_DHT_TEMPERATURE         "temperature"
 #define STR_SENSOR_TOPIC_DHT_HUMIDITY            "humidity"
+#define STR_SENSOR_ERROR_DHT_TEMPERATURE         "Error reading temperature!"
+#define STR_SENSOR_ERROR_DHT_HUMIDITY            "Error reading humidity!"
 #define STR_SENSOR_TOPIC_KY040_VALUE             "position"
 #define STR_SENSOR_TOPIC_PMS5003_AE1P0           "airquality/AE1P0"
 #define STR_SENSOR_TOPIC_PMS5003_AE2P5           "airquality/AE2P5"
@@ -71,3 +75,16 @@
 #define STR_SENSOR_TOPIC_PMS5003_PPD2P5          "airquality/PPD2P5"
 #define STR_SENSOR_TOPIC_PMS5003_PPD5P0          "airquality/PPD5P0"
 #define STR_SENSOR_TOPIC_PMS5003_PPD10P0         "airquality/PPD10P0"
+
+// ModulAmp specific strings --------------------------------------------------------------
+#define STR_MODULAMP_TOPIC_INPUT                 "input"
+#define STR_MODULAMP_TOPIC_VOLUME                "volume"
+#define STR_MODULAMP_MENU_HEADER                 "MODULAMP"
+#define STR_MODULAMP_MENU_VOLUME                 "VOLUME"
+#define STR_MODULAMP_MENU_INPUT                  "INPUT"
+#define STR_MODULAMP_MENU_INPUT_STREAM           "STREAM"
+#define STR_MODULAMP_MENU_INPUT_LINE1            "PHONO"
+#define STR_MODULAMP_MENU_INPUT_LINE2            "AUX"
+#define STR_MODULAMP_CMD_VOLUME                  "volume"
+#define STR_MODULAMP_CMD_INPUT                   "input"
+#define STR_MODULAMP_CMD_FORMAT                  "%s %d"

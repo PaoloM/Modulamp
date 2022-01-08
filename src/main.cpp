@@ -25,9 +25,9 @@
 // SOFTWARE.
 // ==========================================================================================
 
-#define SENSOR_TYPE "ModulAmp"  // type of sensor
-#define VERSION     "1.0"       // firmware version
-#define MAIN_TOPIC  "modulamp"  // default MQTT topic (can be empty)
+#define SENSOR_TYPE "ModulAmp" // type of sensor
+#define VERSION "1.0"          // firmware version
+#define MAIN_TOPIC "modulamp"  // default MQTT topic (can be empty)
 
 #include "main.h"
 #include "EEPROM.h"
@@ -81,7 +81,9 @@ char volume_mqtt_topic[50];
 char temperature_mqtt_topic[50];
 
 // ==========================================================================================
+//
 // IMPLEMENTATION
+//
 // ==========================================================================================
 
 // ==========================================================================================
@@ -215,6 +217,24 @@ void sensorSetup()
     KNOB_INPUT = getInput();
   }
 
+  if (SENSOR_BMP280) // - BMP280 TEMPERATURE, ALTITUDE, PRESSURE SENSOR
+  {                  // TODO - make sure that this initialization works!
+    if (!bmp.begin(BMP280_PIN_SCL, BMP280_PIN_SDA))
+    {
+      Serial.println(F("Could not find a valid BMP280 sensor, check wiring or "
+                       "try a different address!"));
+      while (1)
+        delay(10);
+    }
+
+    /* Default settings from datasheet. */
+    bmp.setSampling(Adafruit_BMP280::MODE_FORCED,     /* Operating Mode. */
+                    Adafruit_BMP280::SAMPLING_X2,     /* Temp. oversampling */
+                    Adafruit_BMP280::SAMPLING_X16,    /* Pressure oversampling */
+                    Adafruit_BMP280::FILTER_X16,      /* Filtering. */
+                    Adafruit_BMP280::STANDBY_MS_500); /* Standby time. */
+  }
+
   // TODO: Add other sensor-specific initialization code here
   /* code */
   EEPROM.begin(512);
@@ -225,9 +245,9 @@ void sensorSetup()
 // ------------------------------------------------------------------------------------------
 void sensorMqttSetup()
 {
-  sprintf(input_mqtt_topic, "%s/%s", LOCATION, "input");
-  sprintf(volume_mqtt_topic, "%s/%s", LOCATION, "volume");
-  sprintf(temperature_mqtt_topic, "%s/%s", LOCATION, "temperature");
+  sprintf(input_mqtt_topic, "%s/%s", LOCATION, STR_MODULAMP_TOPIC_INPUT);
+  sprintf(volume_mqtt_topic, "%s/%s", LOCATION, STR_MODULAMP_TOPIC_VOLUME);
+  sprintf(temperature_mqtt_topic, "%s/%s", LOCATION, STR_SENSOR_TOPIC_DHT_TEMPERATURE);
 }
 
 // ------------------------------------------------------------------------------------------
@@ -241,7 +261,61 @@ void sensorUpdateReadings()
 
   if (SENSOR_DHT) // - DHTxx TEMPERATURE AND HUMIDITY SENSOR
   {
-    // TODO: optional temp sensor readings
+    // Get temperature event and print its value.
+    sensors_event_t event;
+    dht.temperature().getEvent(&event);
+    if (isnan(event.temperature))
+    {
+      log_out(STR_DHT_LOG_PREFIX, STR_SENSOR_ERROR_DHT_TEMPERATURE);
+    }
+    else
+    {
+      if (DHT_TEMPERATURE_IN_FARENHEIT)
+      {
+        DHT_TEMPERATURE = (event.temperature * 1.8f) + 32.0;
+      }
+      else
+      {
+        DHT_TEMPERATURE = event.temperature;
+      }
+    }
+
+    // Get humidity event and print its value.
+    dht.humidity().getEvent(&event);
+    if (isnan(event.relative_humidity))
+    {
+      log_out(STR_DHT_LOG_PREFIX, STR_SENSOR_ERROR_DHT_HUMIDITY);
+    }
+    else
+    {
+      DHT_HUMIDITY = event.relative_humidity;
+    }
+  }
+
+  if (SENSOR_BMP280) // - BMP280 TEMPERATURE, ALTITUDE, PRESSURE SENSOR
+  {                  // TODO - make sure this works!
+    if (bmp.takeForcedMeasurement())
+    {
+      // can now print out the new measurements
+      Serial.print(F("Temperature = "));
+      Serial.print(bmp.readTemperature());
+      Serial.println(" *C");
+
+      Serial.print(F("Pressure = "));
+      Serial.print(bmp.readPressure());
+      Serial.println(" Pa");
+
+      Serial.print(F("Approx altitude = "));
+      Serial.print(bmp.readAltitude(1013.25)); /* Adjusted to local forecast! */
+      Serial.println(" m");
+
+      Serial.println();
+      delay(2000);
+    }
+    else
+    {
+      Serial.println("Forced measurement failed!");
+    }
   }
 }
 
@@ -349,7 +423,7 @@ void sensorReportToMqtt()
 
   sendToMqttTopicAndValue(input_mqtt_topic, String(KNOB_SELECTED_INPUT));
   sendToMqttTopicAndValue(volume_mqtt_topic, String(KNOB_VOLUME));
-  sendToMqttTopicAndValue(temperature_mqtt_topic, "N/A");
+  sendToMqttTopicAndValue(temperature_mqtt_topic, String(DHT_TEMPERATURE));
 
   if (emitTimestamp) // Common timestamp for all MQTT topics pub
   {
@@ -393,17 +467,17 @@ void sensorUpdateDisplay()
         // TODO redesign the screens for menu, input, volume
         case KNOB_MODE_MENU:
           u8g2.setFont(HEADER_FONT);
-          sprintf(s, "%s", "MODULAMP");
+          sprintf(s, "%s", STR_MODULAMP_MENU_HEADER);
           u8g2.drawStr(0, 16, s);
 
           u8g2.setFont(BODY_FONT);
           switch (KNOB_MENU)
           {
           case KNOB_MODE_INPUT:
-            sprintf(s, "%s", "INPUT");
+            sprintf(s, "%s", STR_MODULAMP_MENU_INPUT);
             break;
           case KNOB_MODE_VOLUME:
-            sprintf(s, "%s", "VOLUME");
+            sprintf(s, "%s", STR_MODULAMP_MENU_VOLUME);
             break;
           }
           u8g2.drawStr(0, 60, s);
@@ -411,23 +485,23 @@ void sensorUpdateDisplay()
 
         case KNOB_MODE_INPUT:
           u8g2.setFont(HEADER_FONT);
-          sprintf(s, "%s", "INPUT");
+          sprintf(s, "%s", STR_MODULAMP_MENU_INPUT);
           u8g2.drawStr(0, 16, s);
 
           u8g2.setFont(BODY_FONT);
           switch (KNOB_INPUT)
           {
           case KNOB_INPUT_BACK:
-            sprintf(s, "%s", "MENU");
+            sprintf(s, "%s", "MENU"); // TODO - is this even a valid state?
             break;
           case KNOB_INPUT_STREAM:
-            sprintf(s, "%s", "STREAM");
+            sprintf(s, "%s", STR_MODULAMP_MENU_INPUT_STREAM);
             break;
           case KNOB_INPUT_LINE1:
-            sprintf(s, "%s", "PHONO");
+            sprintf(s, "%s", STR_MODULAMP_MENU_INPUT_LINE1);
             break;
           case KNOB_INPUT_LINE2:
-            sprintf(s, "%s", "AUX");
+            sprintf(s, "%s", STR_MODULAMP_MENU_INPUT_LINE2);
             break;
           }
           u8g2.drawStr(0, 60, s);
@@ -435,7 +509,7 @@ void sensorUpdateDisplay()
 
         case KNOB_MODE_VOLUME:
           u8g2.setFont(HEADER_FONT);
-          sprintf(s, "%s", "VOLUME");
+          sprintf(s, "%s", STR_MODULAMP_MENU_VOLUME);
           u8g2.drawStr(0, 16, s);
 
           u8g2.setFont(BODY_FONT);
@@ -475,14 +549,16 @@ void mqttCallback(char *topic, byte *payload, uint8_t length)
   // log message
   char out[255];
   sprintf(out, STR_MESSAGE_RECEIVED_FORMAT, topic, message.c_str());
-  log_out("MQTT    ", out);
+  log_out(STR_MQTT_LOG_PREFIX, out);
 
   // TODO: error handling
   int v;
   char p[255];
-  sscanf(message.c_str(), "%s %d", p, &v);
+  sscanf(message.c_str(), STR_MODULAMP_CMD_FORMAT, p, &v);
 
   // TODO: make sure it's lowercase
-  if (!strcmp(p, "volume")) setVolume(v);
-  if (!strcmp(p, "input")) selectInput(v);
+  if (!strcmp(p, STR_MODULAMP_CMD_VOLUME))
+    setVolume(v);
+  if (!strcmp(p, STR_MODULAMP_CMD_INPUT))
+    selectInput(v);
 }

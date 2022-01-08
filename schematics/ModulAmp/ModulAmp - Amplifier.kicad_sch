@@ -24,7 +24,7 @@
     (effects (font (size 1.27 1.27)) (justify left))
     (uuid 810ed4ff-ffe2-4032-9af6-fb5ada3bae5b)
   )
-  (hierarchical_label "+12V" (shape input) (at 139.7 43.18 90)
+  (hierarchical_label "+32V" (shape input) (at 139.7 43.18 90)
     (effects (font (size 1.27 1.27)) (justify left))
     (uuid 9c607e49-ee5c-4e85-a7da-6fede9912412)
   )
