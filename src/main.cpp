@@ -237,6 +237,7 @@ void sensorSetup()
 
   // TODO: Add other sensor-specific initialization code here
   /* code */
+  
   EEPROM.begin(512);
 }
 
@@ -423,7 +424,7 @@ void sensorReportToMqtt()
 
   sendToMqttTopicAndValue(input_mqtt_topic, String(KNOB_SELECTED_INPUT));
   sendToMqttTopicAndValue(volume_mqtt_topic, String(KNOB_VOLUME));
-  sendToMqttTopicAndValue(temperature_mqtt_topic, String(DHT_TEMPERATURE));
+  // sendToMqttTopicAndValue(temperature_mqtt_topic, String(DHT_TEMPERATURE));
 
   if (emitTimestamp) // Common timestamp for all MQTT topics pub
   {
@@ -529,7 +530,26 @@ void sensorUpdateDisplay()
   }
   else
   {
+    char s[20];
+
     u8g2.clearBuffer();
+    u8g2.setFont(HEADER_FONT);
+    switch (KNOB_INPUT)
+    {
+    case KNOB_INPUT_BACK:
+      sprintf(s, "%s", "MENU"); // TODO - is this even a valid state?
+      break;
+    case KNOB_INPUT_STREAM:
+      sprintf(s, "%s", STR_MODULAMP_MENU_INPUT_STREAM);
+      break;
+    case KNOB_INPUT_LINE1:
+      sprintf(s, "%s", STR_MODULAMP_MENU_INPUT_LINE1);
+      break;
+    case KNOB_INPUT_LINE2:
+      sprintf(s, "%s", STR_MODULAMP_MENU_INPUT_LINE2);
+      break;
+    }
+    u8g2.drawStr(0, 40, s);
     u8g2.sendBuffer();
   }
 }
