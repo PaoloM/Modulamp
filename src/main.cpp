@@ -102,39 +102,48 @@ void setVolume(int value)
 
 void saveVolume(int value)
 {
-  /* code */
-  // EEPROM.put(0, (uint8_t)KNOB_VOLUME);
-  //   EEPROM.commit();
-  // Serial.print("Saving volume ");
-  // Serial.println(KNOB_VOLUME);
+  if (USE_EEPROM)
+  {
+    EEPROM.put(0, (uint8_t)KNOB_VOLUME);
+    EEPROM.commit();
+    Serial.print("Saving volume ");
+    Serial.println(KNOB_VOLUME);
+  }
 }
 
 void saveInput(int value)
 {
-  /* code */
-  // EEPROM.put(1, (uint8_t)KNOB_INPUT);
-  //   EEPROM.commit();
-  // Serial.print("Saving input ");
-  // Serial.println(KNOB_INPUT);
+  if (USE_EEPROM)
+  {
+    EEPROM.put(1, (uint8_t)KNOB_INPUT);
+    EEPROM.commit();
+    Serial.print("Saving input ");
+    Serial.println(KNOB_INPUT);
+  }
 }
 
 int getVolume()
 {
   uint8_t v = 0;
 
-  // v = EEPROM.read(0);
-  // Serial.print("Reading volume ");
-  // Serial.println(v);
+  if (USE_EEPROM)
+  {
+    v = EEPROM.read(0);
+    Serial.print("Reading volume ");
+    Serial.println(v);
+  }
   return ((int)v);
 }
 
 int getInput()
 {
   uint8_t v = 0;
-
-  // v = EEPROM.read(1);
-  // Serial.print("Reading input ");
-  // Serial.println(v);
+  if (USE_EEPROM)
+  {
+    v = EEPROM.read(1);
+    Serial.print("Reading input ");
+    Serial.println(v);
+  }
   return ((int)v);
 }
 
@@ -235,10 +244,13 @@ void sensorSetup()
                     Adafruit_BMP280::STANDBY_MS_500); /* Standby time. */
   }
 
+  if (USE_EEPROM)
+  {
+    EEPROM.begin(512);
+  }
+
   // TODO: Add other sensor-specific initialization code here
   /* code */
-  
-  EEPROM.begin(512);
 }
 
 // ------------------------------------------------------------------------------------------
