@@ -260,7 +260,10 @@ void sensorMqttSetup()
 {
   sprintf(input_mqtt_topic, "%s/%s", LOCATION, STR_MODULAMP_TOPIC_INPUT);
   sprintf(volume_mqtt_topic, "%s/%s", LOCATION, STR_MODULAMP_TOPIC_VOLUME);
-  sprintf(temperature_mqtt_topic, "%s/%s", LOCATION, STR_SENSOR_TOPIC_DHT_TEMPERATURE);
+  if (SENSOR_DHT)
+  {
+    sprintf(temperature_mqtt_topic, "%s/%s", LOCATION, STR_SENSOR_TOPIC_DHT_TEMPERATURE);
+  }
 }
 
 // ------------------------------------------------------------------------------------------
@@ -381,6 +384,7 @@ void sensorUpdateReadingsQuick()
         if (KNOB_VOLUME < KNOB_MODE_VOLUME_MAX)
           KNOB_VOLUME += DELTA;
         setVolume(KNOB_VOLUME);
+        Serial.println("UP");
         break;
       default:
         break;
@@ -407,6 +411,7 @@ void sensorUpdateReadingsQuick()
         if (KNOB_VOLUME > KNOB_MODE_VOLUME_MIN)
           KNOB_VOLUME -= DELTA;
         setVolume(KNOB_VOLUME);
+        Serial.println("DOWN");
         break;
       default:
         break;
