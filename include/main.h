@@ -50,7 +50,9 @@
 #include <ArduinoOTA.h>                        // Required for OTA updates
 #include <Wire.h>
 #include <SPI.h>
+#ifdef USE_SERIAL
 #include <SoftwareSerial.h>                    // Allows sensors to avoid the USB serial port
+#endif
 
 #include <time.h>
 
@@ -123,7 +125,7 @@ void log_out(char* component, const char* value)
 
   strftime(s,sizeof(s),"%Y-%m-%d %T", timeptr);
 
-  if (DEBUG) {
+  if (DEBUG && USE_SERIAL) {
     sprintf(out, "%s | %s | %s", s, component, value);
     Serial.println(out);
   }
@@ -217,6 +219,7 @@ void wifiSetup()
 /*--------------------------- SERIAL ---------------------------------------*/
 void serialSetup()
 {
+  #ifdef USE_SERIAL
   // Setup communication with the serial monitor
   Serial.begin(SERIAL_BAUD_RATE);
   Serial.println();
@@ -229,6 +232,7 @@ void serialSetup()
   log_out(STR_STARTUP_LOG_PREFIX, s);
   sprintf(s, STR_STARTUP_DEVICE_MESSAGE_FORMAT, DEVICE_ID);
   log_out(STR_STARTUP_LOG_PREFIX, s);
+  #endif
 }
 
 /*--------------------------- OTA ---------------------------------------*/

@@ -31,6 +31,7 @@
 #define     SPLASH_SCREEN_DELAY      5000               // milliseconds before splash screen dismissal
 #define     SCREEN_TIMEOUT_DELAY     10000              // milliseconds before screen timeout
 #define     USE_EEPROM               false              // use EEPROM for settings storage
+#define     USE_SERIAL               true
 
 // Template info (do not change after creating the initial structure)
 #define     BOILERPLATE_VERSION      1.7                // version and date of the boilerplate template 

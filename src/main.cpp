@@ -80,6 +80,8 @@ char input_mqtt_topic[50];
 char volume_mqtt_topic[50];
 char temperature_mqtt_topic[50];
 
+int input[3]; // Pin related to each input
+
 // ==========================================================================================
 //
 // IMPLEMENTATION
@@ -93,6 +95,17 @@ char temperature_mqtt_topic[50];
 void selectInput(int value)
 {
   KNOB_SELECTED_INPUT = value;
+  for (int i = 0; i <= KNOB_MODE_INPUT_MAX; i++)
+  {
+    if (i == value)
+    {
+      digitalWrite(input[i], 1);
+    }
+    else
+    {
+      digitalWrite(input[i], 0);
+    }
+  }
 }
 
 void setVolume(int value)
@@ -106,8 +119,11 @@ void saveVolume(int value)
   {
     EEPROM.put(0, (uint8_t)KNOB_VOLUME);
     EEPROM.commit();
-    Serial.print("Saving volume ");
+    if (USE_SERIAL)
+    {
+          Serial.print("Saving volume ");
     Serial.println(KNOB_VOLUME);
+    }
   }
 }
 
@@ -117,8 +133,11 @@ void saveInput(int value)
   {
     EEPROM.put(1, (uint8_t)KNOB_INPUT);
     EEPROM.commit();
+    if (USE_SERIAL)
+    {
     Serial.print("Saving input ");
     Serial.println(KNOB_INPUT);
+    }
   }
 }
 
@@ -129,8 +148,11 @@ int getVolume()
   if (USE_EEPROM)
   {
     v = EEPROM.read(0);
+    if (USE_SERIAL)
+    {
     Serial.print("Reading volume ");
     Serial.println(v);
+    }
   }
   return ((int)v);
 }
@@ -141,8 +163,11 @@ int getInput()
   if (USE_EEPROM)
   {
     v = EEPROM.read(1);
+    if (USE_SERIAL)
+    {
     Serial.print("Reading input ");
     Serial.println(v);
+    }
   }
   return ((int)v);
 }
@@ -250,7 +275,15 @@ void sensorSetup()
   }
 
   // TODO: Add other sensor-specific initialization code here
-  /* code */
+  input[0] = D0;
+  input[1] = 9; // SD2
+  input[2] = 10; // SD3
+  for (int i = 0; i <= KNOB_MODE_INPUT_MAX; i++)
+  {
+    pinMode(input[i], OUTPUT);
+    digitalWrite(input[i], 0);
+  }
+  selectInput(KNOB_INPUT_STREAM);
 }
 
 // ------------------------------------------------------------------------------------------
@@ -260,7 +293,7 @@ void sensorMqttSetup()
 {
   sprintf(input_mqtt_topic, "%s/%s", LOCATION, STR_MODULAMP_TOPIC_INPUT);
   sprintf(volume_mqtt_topic, "%s/%s", LOCATION, STR_MODULAMP_TOPIC_VOLUME);
-  sprintf(temperature_mqtt_topic, "%s/%s", LOCATION, STR_SENSOR_TOPIC_DHT_TEMPERATURE);
+//  sprintf(temperature_mqtt_topic, "%s/%s", LOCATION, STR_SENSOR_TOPIC_DHT_TEMPERATURE);
 }
 
 // ------------------------------------------------------------------------------------------
@@ -458,8 +491,11 @@ void sensorReportToMqtt()
 // ------------------------------------------------------------------------------------------
 void sensorReportToSerial()
 {
+  if (USE_SERIAL)
+  {
   // TODO: report required values to the console
   /* code */
+  }
 }
 
 // ------------------------------------------------------------------------------------------
