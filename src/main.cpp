@@ -293,14 +293,10 @@ void sensorMqttSetup()
 {
   sprintf(input_mqtt_topic, "%s/%s", LOCATION, STR_MODULAMP_TOPIC_INPUT);
   sprintf(volume_mqtt_topic, "%s/%s", LOCATION, STR_MODULAMP_TOPIC_VOLUME);
-<<<<<<< HEAD
-//  sprintf(temperature_mqtt_topic, "%s/%s", LOCATION, STR_SENSOR_TOPIC_DHT_TEMPERATURE);
-=======
   if (SENSOR_DHT)
   {
     sprintf(temperature_mqtt_topic, "%s/%s", LOCATION, STR_SENSOR_TOPIC_DHT_TEMPERATURE);
   }
->>>>>>> 89c578e1f82a63669da6bc81a66f2d0e381f8965
 }
 
 // ------------------------------------------------------------------------------------------
