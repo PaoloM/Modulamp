@@ -41,13 +41,6 @@
 #define          SSD1306_PIN_SCL              D1
 #define          SSD1306_PIN_SDA              D2
 
-///////////////////////////////// BMP280 TEMPERATURE, PRESSURE, ALTITUDE SENSOR /////////////
-//
-// (add some info)
-#include <Adafruit_BMP280.h>
-#define          BMP280_PIN_SCL               D3
-#define          BMP280_PIN_SDA               D4
-
 ///////////////////////////////// DHTxx TEMPERATURE AND HUMIDITY SENSOR //////////////////////
 // (add some info)
 #include <DHT.h> // adafruit/DHT sensor library@^1.4.3
@@ -58,12 +51,6 @@
 //#define          DHT_TYPE                     DHT22     // DHT 22 (AM2302)
 //#define          DHT_TYPE                     DHT21     // DHT 21 (AM2301)
 #define          DHT_TEMPERATURE_IN_FARENHEIT true
-
-///////////////////////////////// HD44780 16x2 LCD DISPLAY ///////////////////////////////////
-// (add some info)
-#include <LiquidCrystal_I2C.h>  // marcoschwartz/LiquidCrystal_I2C@^1.1.4                
-
-#define          HD44780_SCREEN_ADDRESS       0x27 // 0x27 for 16x2 characters
 
 ///////////////////////////////// KY-040 ROTARY ENCODER //////////////////////////////////////
 // (add some info)
