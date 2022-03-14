@@ -80,6 +80,8 @@ char input_mqtt_topic[50];
 char volume_mqtt_topic[50];
 char temperature_mqtt_topic[50];
 
+int input[3]; // Pin related to each input
+
 // ==========================================================================================
 //
 // IMPLEMENTATION
@@ -93,48 +95,82 @@ char temperature_mqtt_topic[50];
 void selectInput(int value)
 {
   KNOB_SELECTED_INPUT = value;
+  for (int i = 0; i <= KNOB_MODE_INPUT_MAX; i++)
+  {
+    if (i == value)
+    {
+      digitalWrite(input[i], 1);
+    }
+    else
+    {
+      digitalWrite(input[i], 0);
+    }
+  }
 }
 
 void setVolume(int value)
 {
   KNOB_VOLUME = value;
+  // Send volume info
+  /* code */
 }
 
 void saveVolume(int value)
 {
-  /* code */
-  // EEPROM.put(0, (uint8_t)KNOB_VOLUME);
-  //   EEPROM.commit();
-  // Serial.print("Saving volume ");
-  // Serial.println(KNOB_VOLUME);
+  if (USE_EEPROM)
+  {
+    EEPROM.put(0, (uint8_t)KNOB_VOLUME);
+    EEPROM.commit();
+    if (USE_SERIAL)
+    {
+      Serial.print("Saving volume ");
+      Serial.println(KNOB_VOLUME);
+    }
+  }
 }
 
 void saveInput(int value)
 {
-  /* code */
-  // EEPROM.put(1, (uint8_t)KNOB_INPUT);
-  //   EEPROM.commit();
-  // Serial.print("Saving input ");
-  // Serial.println(KNOB_INPUT);
+  if (USE_EEPROM)
+  {
+    EEPROM.put(1, (uint8_t)KNOB_INPUT);
+    EEPROM.commit();
+    if (USE_SERIAL)
+    {
+      Serial.print("Saving input ");
+      Serial.println(KNOB_INPUT);
+    }
+  }
 }
 
 int getVolume()
 {
   uint8_t v = 0;
 
-  // v = EEPROM.read(0);
-  // Serial.print("Reading volume ");
-  // Serial.println(v);
+  if (USE_EEPROM)
+  {
+    v = EEPROM.read(0);
+    if (USE_SERIAL)
+    {
+      Serial.print("Reading volume ");
+      Serial.println(v);
+    }
+  }
   return ((int)v);
 }
 
 int getInput()
 {
   uint8_t v = 0;
-
-  // v = EEPROM.read(1);
-  // Serial.print("Reading input ");
-  // Serial.println(v);
+  if (USE_EEPROM)
+  {
+    v = EEPROM.read(1);
+    if (USE_SERIAL)
+    {
+      Serial.print("Reading input ");
+      Serial.println(v);
+    }
+  }
   return ((int)v);
 }
 
@@ -158,7 +194,6 @@ void sensorSetup()
     u8g2.begin();
 
     // Show splash screen
-    // TODO redesign the splash screen
     u8g2.clearBuffer();
     u8g2.setFont(u8g2_font_helvB12_tr);
     sprintf(s, "%s", SENSOR_TYPE);
@@ -183,26 +218,6 @@ void sensorSetup()
     dht.begin();
   }
 
-  if (SENSOR_HD74480) // - HD77480 16x2 LCD DISPLAY
-  {
-    char client_id[20];
-
-    lcd.init();
-
-    // Show splash screen
-    lcd.backlight();
-    lcd.setCursor(0, 0);
-    sprintf(client_id, "Jeeves    %x", DEVICE_ID);
-    lcd.print(client_id);
-    lcd.setCursor(0, 1);
-    lcd.print(SENSOR_TYPE);
-    lcd.setCursor(13, 1);
-    lcd.print(VERSION);
-    // End splash screen
-
-    ON_SPLASH_SCREEN = true;
-  }
-
   if (SENSOR_KY040) // - KY040 ROTARY ENCODER
   {
     pinMode(KY040_PIN_IN1, INPUT);
@@ -217,28 +232,20 @@ void sensorSetup()
     KNOB_INPUT = getInput();
   }
 
-  if (SENSOR_BMP280) // - BMP280 TEMPERATURE, ALTITUDE, PRESSURE SENSOR
-  {                  // TODO - make sure that this initialization works!
-    if (!bmp.begin(BMP280_PIN_SCL, BMP280_PIN_SDA))
-    {
-      Serial.println(F("Could not find a valid BMP280 sensor, check wiring or "
-                       "try a different address!"));
-      while (1)
-        delay(10);
-    }
-
-    /* Default settings from datasheet. */
-    bmp.setSampling(Adafruit_BMP280::MODE_FORCED,     /* Operating Mode. */
-                    Adafruit_BMP280::SAMPLING_X2,     /* Temp. oversampling */
-                    Adafruit_BMP280::SAMPLING_X16,    /* Pressure oversampling */
-                    Adafruit_BMP280::FILTER_X16,      /* Filtering. */
-                    Adafruit_BMP280::STANDBY_MS_500); /* Standby time. */
+  if (USE_EEPROM)
+  {
+    EEPROM.begin(512);
   }
 
-  // TODO: Add other sensor-specific initialization code here
-  /* code */
-  
-  EEPROM.begin(512);
+  input[0] = D0;
+  input[1] = 9;  // SD2
+  input[2] = 10; // SD3
+  for (int i = 0; i <= KNOB_MODE_INPUT_MAX; i++)
+  {
+    pinMode(input[i], OUTPUT);
+    digitalWrite(input[i], 0);
+  }
+  selectInput(KNOB_INPUT_STREAM);
 }
 
 // ------------------------------------------------------------------------------------------
@@ -248,7 +255,10 @@ void sensorMqttSetup()
 {
   sprintf(input_mqtt_topic, "%s/%s", LOCATION, STR_MODULAMP_TOPIC_INPUT);
   sprintf(volume_mqtt_topic, "%s/%s", LOCATION, STR_MODULAMP_TOPIC_VOLUME);
-  sprintf(temperature_mqtt_topic, "%s/%s", LOCATION, STR_SENSOR_TOPIC_DHT_TEMPERATURE);
+  if (SENSOR_DHT)
+  {
+    sprintf(temperature_mqtt_topic, "%s/%s", LOCATION, STR_SENSOR_TOPIC_DHT_TEMPERATURE);
+  }
 }
 
 // ------------------------------------------------------------------------------------------
@@ -293,31 +303,6 @@ void sensorUpdateReadings()
     }
   }
 
-  if (SENSOR_BMP280) // - BMP280 TEMPERATURE, ALTITUDE, PRESSURE SENSOR
-  {                  // TODO - make sure this works!
-    if (bmp.takeForcedMeasurement())
-    {
-      // can now print out the new measurements
-      Serial.print(F("Temperature = "));
-      Serial.print(bmp.readTemperature());
-      Serial.println(" *C");
-
-      Serial.print(F("Pressure = "));
-      Serial.print(bmp.readPressure());
-      Serial.println(" Pa");
-
-      Serial.print(F("Approx altitude = "));
-      Serial.print(bmp.readAltitude(1013.25)); /* Adjusted to local forecast! */
-      Serial.println(" m");
-
-      Serial.println();
-      delay(2000);
-    }
-    else
-    {
-      Serial.println("Forced measurement failed!");
-    }
-  }
 }
 
 // ------------------------------------------------------------------------------------------
@@ -369,6 +354,7 @@ void sensorUpdateReadingsQuick()
         if (KNOB_VOLUME < KNOB_MODE_VOLUME_MAX)
           KNOB_VOLUME += DELTA;
         setVolume(KNOB_VOLUME);
+        Serial.println("UP");
         break;
       default:
         break;
@@ -395,6 +381,7 @@ void sensorUpdateReadingsQuick()
         if (KNOB_VOLUME > KNOB_MODE_VOLUME_MIN)
           KNOB_VOLUME -= DELTA;
         setVolume(KNOB_VOLUME);
+        Serial.println("DOWN");
         break;
       default:
         break;
@@ -410,9 +397,6 @@ void sensorUpdateReadingsQuick()
       break;
     }
   }
-
-  // TODO: Perform measurements on every loop
-  /* code */
 }
 
 // ------------------------------------------------------------------------------------------
@@ -424,7 +408,7 @@ void sensorReportToMqtt()
 
   sendToMqttTopicAndValue(input_mqtt_topic, String(KNOB_SELECTED_INPUT));
   sendToMqttTopicAndValue(volume_mqtt_topic, String(KNOB_VOLUME));
-  // sendToMqttTopicAndValue(temperature_mqtt_topic, String(DHT_TEMPERATURE));
+  sendToMqttTopicAndValue(temperature_mqtt_topic, String(DHT_TEMPERATURE));
 
   if (emitTimestamp) // Common timestamp for all MQTT topics pub
   {
@@ -446,8 +430,11 @@ void sensorReportToMqtt()
 // ------------------------------------------------------------------------------------------
 void sensorReportToSerial()
 {
-  // TODO: report required values to the console
-  /* code */
+  if (USE_SERIAL)
+  {
+    // TODO: report required values to the console
+    /* code */
+  }
 }
 
 // ------------------------------------------------------------------------------------------

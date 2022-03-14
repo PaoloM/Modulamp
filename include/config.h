@@ -30,6 +30,8 @@
 #define     DELAY_MS                 10000              // milliseconds between sensor readings
 #define     SPLASH_SCREEN_DELAY      5000               // milliseconds before splash screen dismissal
 #define     SCREEN_TIMEOUT_DELAY     10000              // milliseconds before screen timeout
+#define     USE_EEPROM               false              // use EEPROM for settings storage
+#define     USE_SERIAL               true
 
 // Template info (do not change after creating the initial structure)
 #define     BOILERPLATE_VERSION      1.7                // version and date of the boilerplate template 
@@ -41,8 +43,5 @@ int         JEEVES_SERVER_PORT     = 8080;              // Listening port of you
 
 // Onboard sensors configuration
 #define     SENSOR_SSD1306           true               // use the SSD1306 124x64 OLED display
-#define     SENSOR_HD74480           false              // use the HD44780 16x2 LCD display
 #define     SENSOR_KY040             true               // use the KY-040 rotary encoder
-#define     SENSOR_DHT               false              // use the DHTxx temperature and humidity sensor
-#define     SENSOR_BMP280            false              // use the BMP280 temperature, humidity, pressure sensor
-#define     SENSOR_PMS5003           false              // TODO use the PMS5003 Digital Particle Concentration Laser Sensor 
+#define     SENSOR_DHT               true               // use the DHTxx temperature and humidity sensor

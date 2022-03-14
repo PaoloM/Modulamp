@@ -50,7 +50,9 @@
 #include <ArduinoOTA.h>                        // Required for OTA updates
 #include <Wire.h>
 #include <SPI.h>
+#ifdef USE_SERIAL
 #include <SoftwareSerial.h>                    // Allows sensors to avoid the USB serial port
+#endif
 
 #include <time.h>
 
@@ -103,10 +105,11 @@ void sensorMqttSetup();
 WiFiClient                          ESP_CLIENT; // WiFi
 PubSubClient                        MQTT_CLIENT(ESP_CLIENT); // MQTT
 RestClient                          REST_CLIENT = RestClient(JEEVES_SERVER, JEEVES_SERVER_PORT); // Jeeves server connection
-LiquidCrystal_I2C                   lcd(HD44780_SCREEN_ADDRESS, 20, 4); // set the LCD address to 0x27 for a 16 chars and 2 line display
 DHT_Unified                         dht(DHT_PIN, DHT_TYPE);
-U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0, SSD1306_PIN_SCL, SSD1306_PIN_SDA, U8X8_PIN_NONE); // All Boards without Reset of the Display
-Adafruit_BMP280                     bmp; // BMP280 
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, 
+                                         U8X8_PIN_NONE,
+                                         SSD1306_PIN_SCL, 
+                                         SSD1306_PIN_SDA);              // All Boards without Reset of the Display
 
 void log_out(char* component, const char* value)
 {
@@ -120,7 +123,7 @@ void log_out(char* component, const char* value)
 
   strftime(s,sizeof(s),"%Y-%m-%d %T", timeptr);
 
-  if (DEBUG) {
+  if (DEBUG && USE_SERIAL) {
     sprintf(out, "%s | %s | %s", s, component, value);
     Serial.println(out);
   }
@@ -214,6 +217,7 @@ void wifiSetup()
 /*--------------------------- SERIAL ---------------------------------------*/
 void serialSetup()
 {
+  #ifdef USE_SERIAL
   // Setup communication with the serial monitor
   Serial.begin(SERIAL_BAUD_RATE);
   Serial.println();
@@ -226,6 +230,7 @@ void serialSetup()
   log_out(STR_STARTUP_LOG_PREFIX, s);
   sprintf(s, STR_STARTUP_DEVICE_MESSAGE_FORMAT, DEVICE_ID);
   log_out(STR_STARTUP_LOG_PREFIX, s);
+  #endif
 }
 
 /*--------------------------- OTA ---------------------------------------*/
