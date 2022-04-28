@@ -54,7 +54,7 @@ int KNOB_MODE_MENU_MIN = 1;
 int KNOB_MODE_INPUT_MAX = 2;
 int KNOB_MODE_INPUT_MIN = 0;
 
-int KNOB_MODE_VOLUME_MAX = 20;
+int KNOB_MODE_VOLUME_MAX = 50;
 int KNOB_MODE_VOLUME_MIN = 0;
 
 int KNOB_MODE = KNOB_MODE_VOLUME;
@@ -79,8 +79,11 @@ int addr = 0;
 char input_mqtt_topic[50];
 char volume_mqtt_topic[50];
 char temperature_mqtt_topic[50];
+char humidity_mqtt_topic[50];
 
 int input[3]; // Pin related to each input
+
+#define volumeSelectPin 10 /* SS */
 
 // ==========================================================================================
 //
@@ -110,9 +113,23 @@ void selectInput(int value)
 
 void setVolume(int value)
 {
+  int actualValue = 255 * value / KNOB_MODE_VOLUME_MAX;
+  if (actualValue <= 0)
+    actualValue = 1;
+
   KNOB_VOLUME = value;
+  
+  Serial.print("Volume = ");
+  Serial.print(KNOB_VOLUME);
+  Serial.print(" (");
+  Serial.print(actualValue);
+  Serial.println(")");
+
   // Send volume info
-  /* code */
+  pinMode(volumeSelectPin, LOW);
+  SPI.transfer(actualValue); // right channel
+  SPI.transfer(actualValue); // left channel
+  pinMode(volumeSelectPin, HIGH);
 }
 
 void saveVolume(int value)
@@ -246,6 +263,9 @@ void sensorSetup()
     digitalWrite(input[i], 0);
   }
   selectInput(KNOB_INPUT_STREAM);
+
+  // pinMode(volumeSelectPin, OUTPUT);
+  // SPI.begin();
 }
 
 // ------------------------------------------------------------------------------------------
@@ -258,6 +278,7 @@ void sensorMqttSetup()
   if (SENSOR_DHT)
   {
     sprintf(temperature_mqtt_topic, "%s/%s", LOCATION, STR_SENSOR_TOPIC_DHT_TEMPERATURE);
+    sprintf(humidity_mqtt_topic, "%s/%s", LOCATION, STR_SENSOR_TOPIC_DHT_HUMIDITY);
   }
 }
 
@@ -354,7 +375,6 @@ void sensorUpdateReadingsQuick()
         if (KNOB_VOLUME < KNOB_MODE_VOLUME_MAX)
           KNOB_VOLUME += DELTA;
         setVolume(KNOB_VOLUME);
-        Serial.println("UP");
         break;
       default:
         break;
@@ -381,7 +401,6 @@ void sensorUpdateReadingsQuick()
         if (KNOB_VOLUME > KNOB_MODE_VOLUME_MIN)
           KNOB_VOLUME -= DELTA;
         setVolume(KNOB_VOLUME);
-        Serial.println("DOWN");
         break;
       default:
         break;
@@ -404,11 +423,12 @@ void sensorUpdateReadingsQuick()
 // ------------------------------------------------------------------------------------------
 void sensorReportToMqtt()
 {
-  bool emitTimestamp = false;
+  bool emitTimestamp = true;
 
   sendToMqttTopicAndValue(input_mqtt_topic, String(KNOB_SELECTED_INPUT));
   sendToMqttTopicAndValue(volume_mqtt_topic, String(KNOB_VOLUME));
   sendToMqttTopicAndValue(temperature_mqtt_topic, String(DHT_TEMPERATURE));
+  sendToMqttTopicAndValue(humidity_mqtt_topic, String(DHT_HUMIDITY));
 
   if (emitTimestamp) // Common timestamp for all MQTT topics pub
   {
