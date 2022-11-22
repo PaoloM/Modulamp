@@ -41,17 +41,6 @@
 #define          SSD1306_PIN_SCL              D1
 #define          SSD1306_PIN_SDA              D2
 
-///////////////////////////////// DHTxx TEMPERATURE AND HUMIDITY SENSOR //////////////////////
-// (add some info)
-#include <DHT.h> // adafruit/DHT sensor library@^1.4.3
-#include <DHT_U.h>
-
-#define          DHT_PIN                      D3
-#define          DHT_TYPE                     DHT11     // DHT 11
-//#define          DHT_TYPE                     DHT22     // DHT 22 (AM2302)
-//#define          DHT_TYPE                     DHT21     // DHT 21 (AM2301)
-#define          DHT_TEMPERATURE_IN_FARENHEIT true
-
 ///////////////////////////////// KY-040 ROTARY ENCODER //////////////////////////////////////
 // (add some info)
 #define          KY040_PIN_IN1                D5   // CLK

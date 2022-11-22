@@ -105,7 +105,6 @@ void sensorMqttSetup();
 WiFiClient                          ESP_CLIENT; // WiFi
 PubSubClient                        MQTT_CLIENT(ESP_CLIENT); // MQTT
 RestClient                          REST_CLIENT = RestClient(JEEVES_SERVER, JEEVES_SERVER_PORT); // Jeeves server connection
-DHT_Unified                         dht(DHT_PIN, DHT_TYPE);
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, 
                                          U8X8_PIN_NONE,
                                          SSD1306_PIN_SCL, 

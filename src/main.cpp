@@ -68,18 +68,12 @@ boolean KNOB_BUTTON_PRESSED = false;
 
 #define DELTA 1
 
-// - DHTxx values
-float DHT_TEMPERATURE;
-float DHT_HUMIDITY;
-
 // TODO: add global variables here
 int addr = 0;
 
 // MQTT sensor specific topics to report values ---------------------------------------------
 char input_mqtt_topic[50];
 char volume_mqtt_topic[50];
-char temperature_mqtt_topic[50];
-char humidity_mqtt_topic[50];
 
 int input[3]; // Pin related to each input
 
@@ -230,11 +224,6 @@ void sensorSetup()
     ON_SPLASH_SCREEN = true;
   }
 
-  if (SENSOR_DHT) // - DHTxx TEMPERATURE AND HUMIDITY SENSOR
-  {
-    dht.begin();
-  }
-
   if (SENSOR_KY040) // - KY040 ROTARY ENCODER
   {
     pinMode(KY040_PIN_IN1, INPUT);
@@ -275,11 +264,6 @@ void sensorMqttSetup()
 {
   sprintf(input_mqtt_topic, "%s/%s", LOCATION, STR_MODULAMP_TOPIC_INPUT);
   sprintf(volume_mqtt_topic, "%s/%s", LOCATION, STR_MODULAMP_TOPIC_VOLUME);
-  if (SENSOR_DHT)
-  {
-    sprintf(temperature_mqtt_topic, "%s/%s", LOCATION, STR_SENSOR_TOPIC_DHT_TEMPERATURE);
-    sprintf(humidity_mqtt_topic, "%s/%s", LOCATION, STR_SENSOR_TOPIC_DHT_HUMIDITY);
-  }
 }
 
 // ------------------------------------------------------------------------------------------
@@ -290,40 +274,6 @@ void sensorUpdateReadings()
   // Saving status to EEPROM
   saveVolume(KNOB_VOLUME);
   saveInput(KNOB_SELECTED_INPUT);
-
-  if (SENSOR_DHT) // - DHTxx TEMPERATURE AND HUMIDITY SENSOR
-  {
-    // Get temperature event and print its value.
-    sensors_event_t event;
-    dht.temperature().getEvent(&event);
-    if (isnan(event.temperature))
-    {
-      log_out(STR_DHT_LOG_PREFIX, STR_SENSOR_ERROR_DHT_TEMPERATURE);
-    }
-    else
-    {
-      if (DHT_TEMPERATURE_IN_FARENHEIT)
-      {
-        DHT_TEMPERATURE = (event.temperature * 1.8f) + 32.0;
-      }
-      else
-      {
-        DHT_TEMPERATURE = event.temperature;
-      }
-    }
-
-    // Get humidity event and print its value.
-    dht.humidity().getEvent(&event);
-    if (isnan(event.relative_humidity))
-    {
-      log_out(STR_DHT_LOG_PREFIX, STR_SENSOR_ERROR_DHT_HUMIDITY);
-    }
-    else
-    {
-      DHT_HUMIDITY = event.relative_humidity;
-    }
-  }
-
 }
 
 // ------------------------------------------------------------------------------------------
@@ -427,8 +377,6 @@ void sensorReportToMqtt()
 
   sendToMqttTopicAndValue(input_mqtt_topic, String(KNOB_SELECTED_INPUT));
   sendToMqttTopicAndValue(volume_mqtt_topic, String(KNOB_VOLUME));
-  sendToMqttTopicAndValue(temperature_mqtt_topic, String(DHT_TEMPERATURE));
-  sendToMqttTopicAndValue(humidity_mqtt_topic, String(DHT_HUMIDITY));
 
   if (emitTimestamp) // Common timestamp for all MQTT topics pub
   {

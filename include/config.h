@@ -44,4 +44,4 @@ int         JEEVES_SERVER_PORT     = 8080;              // Listening port of you
 // Onboard sensors configuration
 #define     SENSOR_SSD1306           true               // use the SSD1306 124x64 OLED display
 #define     SENSOR_KY040             true               // use the KY-040 rotary encoder
-#define     SENSOR_DHT               true               // use the DHTxx temperature and humidity sensor
+#define     SENSOR_DHT               false              // use the DHTxx temperature and humidity sensor
